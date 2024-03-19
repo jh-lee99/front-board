@@ -1,6 +1,6 @@
-import axios from 'axios';
-import {store} from '../redux/store';
-import {jwtUtils} from "./JwtUtils";
+import axios, { AxiosError } from 'axios'; // AxiosError 타입 추가
+import { store } from '../redux/store';
+import { jwtUtils } from "./JwtUtils";
 
 const instance = axios.create({
   // baseURL: process.env.NODE_ENV === 'production' ? '' : 'https://api.eastflag.co.kr'
@@ -22,7 +22,7 @@ instance.interceptors.request.use(
       }
 
       return config;
-    } catch (err) {
+    } catch (err: any) {
       console.error('[_axios.interceptors.request] config : ' + err.message);
     }
     return config;
@@ -48,7 +48,7 @@ instance.interceptors.response.use(
     return response;
   },
 
-  (error) => {
+  (error: AxiosError) => { // error 변수의 타입을 AxiosError로 명시
     /*
         http status가 200이 아닌 경우
         응답 에러 직전 호출됩니다.
